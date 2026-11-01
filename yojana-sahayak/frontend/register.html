@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | Yojana Sahayak</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f4f8f0, #fff9e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 460px;
+            background: #ffffff;
+            border-radius: 22px;
+            padding: 40px;
+            box-shadow: 0 15px 50px rgba(30, 70, 35, 0.10);
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .brand-icon {
+            width: 60px;
+            height: 60px;
+            background: #e9f5e8;
+            color: #247a36;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            border-radius: 18px;
+            font-size: 28px;
+        }
+
+        .brand h2 {
+            font-weight: 800;
+            color: #245c30;
+            margin-bottom: 6px;
+        }
+
+        .brand p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-control {
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #dfe5dc;
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            border-color: #398344;
+            box-shadow: 0 0 0 3px rgba(57, 131, 68, 0.12);
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 13px;
+            background: #287b38;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            margin-top: 10px;
+            transition: 0.2s;
+        }
+
+        .btn-register:hover {
+            background: #1f622c;
+            color: white;
+        }
+
+        .btn-register:disabled {
+            opacity: 0.7;
+        }
+
+        .bottom-text {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .bottom-text a {
+            color: #287b38;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .home-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .home-link:hover {
+            color: #287b38;
+        }
+
+        #message {
+            display: none;
+            font-size: 13px;
+            border-radius: 8px;
+        }
+
+        @media(max-width: 480px) {
+            .auth-container { padding: 28px 22px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="auth-container">
+
+    <div class="brand">
+        <div class="brand-icon">🌱</div>
+        <h2>Yojana Sahayak</h2>
+        <p>Create your account to get started</p>
+    </div>
+
+    <div id="message" class="alert"></div>
+
+    <form id="registerForm">
+
+        <div class="mb-3">
+            <label class="form-label" for="full_name">Full Name</label>
+            <input
+                type="text"
+                class="form-control"
+                id="full_name"
+                name="full_name"
+                placeholder="Enter your full name"
+                maxlength="120"
+                autocomplete="name"
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="email">Email Address</label>
+            <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="password">Password</label>
+            <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                placeholder="Minimum 8 characters"
+                minlength="8"
+                maxlength="72"
+                autocomplete="new-password"
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="confirm_password">Confirm Password</label>
+            <input
+                type="password"
+                class="form-control"
+                id="confirm_password"
+                name="confirm_password"
+                placeholder="Re-enter your password"
+                minlength="8"
+                maxlength="72"
+                autocomplete="new-password"
+                required
+            >
+        </div>
+
+        <button type="submit" class="btn-register" id="registerBtn">
+            Create Account
+        </button>
+
+    </form>
+
+    <div class="bottom-text">
+        Already have an account?
+        <a href="login.html">Login</a>
+    </div>
+
+    <a href="index.html" class="home-link">← Back to Home</a>
+
+</div>
+
+<script>
+const AUTH_API = "http://localhost/yojana-sahayak/backend/api/auth.php";
+const form = document.getElementById("registerForm");
+const message = document.getElementById("message");
+const button = document.getElementById("registerBtn");
+
+function showMessage(text, type = "danger") {
+    message.className = `alert alert-${type}`;
+    message.textContent = text;
+    message.style.display = "block";
+}
+
+form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const full_name = document.getElementById("full_name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirm_password = document.getElementById("confirm_password").value;
+
+    if (password !== confirm_password) {
+        showMessage("Passwords do not match.");
+        return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Creating account...";
+    message.style.display = "none";
+
+    try {
+        const response = await fetch(`${AUTH_API}?action=register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                full_name,
+                email,
+                password,
+                confirm_password
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showMessage(
+                "Account created successfully! Redirecting to login...",
+                "success"
+            );
+
+            form.reset();
+
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 1500);
+
+        } else {
+            showMessage(result.message || "Registration failed.");
+        }
+
+    } catch (error) {
+        console.error("Registration error:", error);
+        showMessage("Unable to connect to the server. Please try again.");
+    }
+
+    button.disabled = false;
+    button.textContent = "Create Account";
+});
+</script>
+
+</body>
+</html>
